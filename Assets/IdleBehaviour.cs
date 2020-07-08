@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleBehaviour : StateMachineBehaviour
-{
+{   
+    private Transform playerPos;
    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+       playerPos = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-       if(Input.GetKeyDown(KeyCode.Space)){
+    {   
+        Debug.Log(Vector2.Distance(animator.transform.position,playerPos.position));
+        //Debug.Log((animator.transform.position).ToString());
+        Debug.Log("I'm on Idle State");
+       if(Vector2.Distance(animator.transform.position,playerPos.position) < 10){
            animator.SetBool("isFollowing",true);
        }
+    //    if(Input.GetKeyDown(KeyCode.Space)){
+    //        animator.SetBool("isFollowing",true);
+    //    }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state

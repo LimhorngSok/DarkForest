@@ -11,20 +11,26 @@ public class FollowBehaviour : StateMachineBehaviour
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-       audio = animator.GetComponent<AudioSource>();
-       audio.Play();
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+ 
     }
 
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {   
-       Debug.Log("Player:"+playerPos.position);
-       Debug.Log("Mob:"+animator.transform.position);
-       animator.transform.position = Vector2.MoveTowards(animator.transform.position,new Vector2(playerPos.position.x-34,animator.transform.position.y),speed*Time.deltaTime);
-       if(Input.GetKeyDown(KeyCode.Space)){
+    {  
+        Debug.Log(Vector2.Distance(animator.transform.position,playerPos.position));
+       if(Vector2.Distance(animator.transform.position,playerPos.position) > 10){
+           animator.SetBool("isFollowing",false);
+       }
+       
+       
+       Debug.Log("I'm on Following State");
+       animator.transform.position = Vector2.MoveTowards(animator.transform.position,playerPos.position,speed*Time.deltaTime);
+       if(Vector2.Distance(animator.transform.position,playerPos.position) < 5){
+           animator.SetBool("isFollowing",false);
            animator.SetBool("isAttacking",true);
        }
+
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
