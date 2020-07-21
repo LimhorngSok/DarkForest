@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FollowBehaviour : StateMachineBehaviour
 {   
-    private AudioSource audio;
     private Transform playerPos;
     public float speed;
 
